@@ -69,7 +69,7 @@ public class DriverSignupSigninController {
 	@GetMapping("/userdetails")
 	public ResponseEntity<User> userDetails() {
 	
-		User user = restTemplate.getForEntity("http://localhost:8011/userdetailsfordriver", User.class).getBody();
+		User user = restTemplate.getForEntity("http://USER-SIGNUP-SIGNIN/userdetailsfordriver", User.class).getBody();
 		System.out.println(user.getUsername());
 		return new ResponseEntity<User>(user,HttpStatus.FOUND);
 

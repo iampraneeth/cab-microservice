@@ -3,6 +3,7 @@ package com.capgemini.cab.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,9 +21,10 @@ import com.capgemini.cab.entity.DriverDetails;
 import com.capgemini.cab.entity.User;
 import com.capgemini.cab.service.UserService;
 
-@RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+import ch.qos.logback.core.status.Status;
 
+@RestController
+@CrossOrigin("*")
 public class UserController {
 	private String userName;
 
@@ -42,14 +44,21 @@ public class UserController {
 
 	@GetMapping("/loginuser/{email}/{password}")
 	public ResponseEntity<User> logInDetailsForUser(@PathVariable String email, @PathVariable String password) {
-		//System.out.println(email);
-		//System.out.println(password);
+		// System.out.println(email);
+		// System.out.println(password);
 
 		User user1 = service.findByEmail(email);
-		//System.out.println(user1);
+		// System.out.println(user1);
 
 		if (user1 == null) {
 			return new ResponseEntity<User>(user1, HttpStatus.NOT_FOUND);
+		}
+
+		if (email.equals("admin@gmail.com") && password.equals("Admin@123")) {
+			Admin admin = new Admin();
+			Admin admin = restTemplate.getForEntity("http://ADMIN-SIGNIN/login", Admin.class).getBody();
+		
+			return ResponseEntity<Admin>(HttpStatus.FOUND);
 		}
 
 		userName = user1.getEmail();
@@ -65,23 +74,24 @@ public class UserController {
 	}
 
 	@GetMapping("/bookride/{pickUpAt}/{dropAt}")
-	public ResponseEntity<BookRide> bookRideForUser(@PathVariable String pickUpAt, @PathVariable String dropAt) {
+	public ResponseEntity<Distance> bookRideForUser(@PathVariable String pickUpAt, @PathVariable String dropAt) {
 		System.out.println(pickUpAt);
 
 		Distance distance = restTemplate
-				.getForEntity("http://localhost:8012/distancecalculator/" + pickUpAt + "/" + dropAt, Distance.class)
+				.getForEntity("http://USER-COORDINATE-DISTANCE/distancecalculator/" + pickUpAt + "/" + dropAt,
+						Distance.class)
 				.getBody();
 
 		System.out.println(distance.getFinalDistance());
-
-		return new ResponseEntity<BookRide>(HttpStatus.ACCEPTED);
+		System.out.println(distance);
+		return new ResponseEntity<Distance>(distance, HttpStatus.ACCEPTED);
 
 	}
 
 	@GetMapping("/confirmbooking")
 	public ResponseEntity<DriverDetails> confirmDriver() {
 		DriverDetails driverDetails = restTemplate
-				.getForEntity("http://localhost:8083/driverdetails", DriverDetails.class).getBody();
+				.getForEntity("http://DRIVER-SIGNUP-SIGNIN/driverdetails", DriverDetails.class).getBody();
 		System.out.println(driverDetails.getDriverDetails());
 		return new ResponseEntity<DriverDetails>(driverDetails, HttpStatus.OK);
 

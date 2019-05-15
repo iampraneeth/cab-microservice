@@ -11,6 +11,7 @@ import com.capgemini.cab.entity.Distance;
 
 @RestController
 public class DistanceController {
+
 	@GetMapping("distancecalculator/{pickUpAt}/{dropAt}")
 	public ResponseEntity<Distance> getDistance(@PathVariable String pickUpAt, @PathVariable String dropAt) {
 
