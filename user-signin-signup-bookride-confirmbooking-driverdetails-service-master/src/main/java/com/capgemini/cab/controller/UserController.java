@@ -1,9 +1,6 @@
 package com.capgemini.cab.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,14 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.capgemini.cab.entity.BookRide;
 import com.capgemini.cab.entity.Distance;
-import com.capgemini.cab.entity.Driver;
 import com.capgemini.cab.entity.DriverDetails;
 import com.capgemini.cab.entity.User;
 import com.capgemini.cab.service.UserService;
-
-import ch.qos.logback.core.status.Status;
 
 @RestController
 @CrossOrigin("*")
@@ -48,7 +41,7 @@ public class UserController {
 		// System.out.println(password);
 
 		User user1 = service.findByEmail(email);
-		 System.out.println(user1);
+		// System.out.println(user1);
 
 		if (user1 == null) {
 			return new ResponseEntity<User>(user1, HttpStatus.NOT_FOUND);
@@ -99,5 +92,14 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.FOUND);
 
 	}
+
+	@GetMapping("/givinguserdetails")
+	public ResponseEntity<User> givingUserDetails() {
+		User u = service.findByEmail(userName);
+		return new ResponseEntity<User>(u, HttpStatus.OK);
+
+	}
+
+	
 
 }

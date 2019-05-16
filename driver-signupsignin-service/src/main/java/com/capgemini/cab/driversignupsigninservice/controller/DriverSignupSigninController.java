@@ -22,11 +22,12 @@ import com.capgemini.cab.driversignupsigninservice.service.DriverService;
 @RestController
 @CrossOrigin("*")
 public class DriverSignupSigninController {
+	private String driverEmail;
 	private List<Driver> driver;
 
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	@Autowired
 	private DriverService service;
 
@@ -44,9 +45,8 @@ public class DriverSignupSigninController {
 			throws NullPointerException {
 
 		Driver status = service.findByEmail(email);
-		System.out.println(status);
 
-		if ((status.getEmail().equals(email) && (status.getPassword().equals(password))&&(status.getStatus()==0))) {
+		if ((status.getEmail().equals(email) && (status.getPassword().equals(password)))) {
 
 			return new ResponseEntity<Driver>(status, HttpStatus.ACCEPTED);
 		}
@@ -65,16 +65,49 @@ public class DriverSignupSigninController {
 		// System.out.println(details.getDriverDetails());
 
 		return new ResponseEntity<DriverDetails>(details, HttpStatus.ACCEPTED);
-		
-		
 	}
 
 	@GetMapping("/userdetails")
 	public ResponseEntity<User> userDetails() {
-	
+
 		User user = restTemplate.getForEntity("http://USER-SIGNUP-SIGNIN/userdetailsfordriver", User.class).getBody();
 		System.out.println(user.getUsername());
-		return new ResponseEntity<User>(user,HttpStatus.FOUND);
+		return new ResponseEntity<User>(user, HttpStatus.FOUND);
+
+	}
+
+	@GetMapping("/userdetailsfordriver")
+	public ResponseEntity<User> userDetailsForDriver() {
+
+		// DriverDetails details = new DriverDetails();
+		driver = new ArrayList<Driver>();
+		driver = service.findAll();
+		// System.out.println(driver);
+		for (Driver driver2 : driver) {
+			System.out.println(driver2);
+			if (driver2.getStatus() == 0) {
+				driverEmail = driver2.getEmail();
+				driver2.setStatus(1);
+				System.out.println(driver2);
+				User u = restTemplate.getForEntity("http://USER-SIGNUP-SIGNIN/givinguserdetails", User.class).getBody();
+
+				return new ResponseEntity<User>(u, HttpStatus.OK);
+
+			}
+
+		}
+
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+
+	}
+
+	@GetMapping("/ridecomplete")
+	public ResponseEntity<User> rideComplete() {
+		Driver d = service.findByEmail(driverEmail);
+		d.setStatus(0);
+		System.out.println(d);
+
+		return new ResponseEntity<User>(HttpStatus.OK);
 
 	}
 
