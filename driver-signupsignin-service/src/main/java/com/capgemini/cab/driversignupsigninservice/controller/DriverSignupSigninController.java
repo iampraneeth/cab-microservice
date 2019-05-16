@@ -44,8 +44,9 @@ public class DriverSignupSigninController {
 			throws NullPointerException {
 
 		Driver status = service.findByEmail(email);
+		System.out.println(status);
 
-		if ((status.getEmail().equals(email) && (status.getPassword().equals(password)))) {
+		if ((status.getEmail().equals(email) && (status.getPassword().equals(password))&&(status.getStatus()==0))) {
 
 			return new ResponseEntity<Driver>(status, HttpStatus.ACCEPTED);
 		}
@@ -64,6 +65,8 @@ public class DriverSignupSigninController {
 		// System.out.println(details.getDriverDetails());
 
 		return new ResponseEntity<DriverDetails>(details, HttpStatus.ACCEPTED);
+		
+		
 	}
 
 	@GetMapping("/userdetails")

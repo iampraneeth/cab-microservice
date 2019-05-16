@@ -29,6 +29,7 @@ public class Driver {
 	private String vehicleRegistrationNumber;
 	private String policeReport;
 	private String password;
+	private int status;
 
 	public Driver() {
 		super();
@@ -53,6 +54,14 @@ public class Driver {
 		this.vehicleRegistrationNumber = vehicleRegistrationNumber;
 		this.policeReport = policeReport;
 		this.password = password;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public long getD_id() {

@@ -37,7 +37,7 @@ public class DistanceController {
 
 			double r = 6371;
 
-			int finalDistance = (int) (c * r + 10);
+			int finalDistance = (int) (c * r + 10)*10;
 			dist.setFinalDistance(finalDistance);
 
 			return new ResponseEntity<Distance>(dist, HttpStatus.OK);

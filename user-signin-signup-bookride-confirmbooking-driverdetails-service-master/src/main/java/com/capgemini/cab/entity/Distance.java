@@ -12,13 +12,13 @@ public class Distance {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Distance(double lat1, double long1, double lat2, double long2) {
+	public Distance(double lat1, double long1, double lat2, double long2, int finalDistance) {
 		super();
 		this.lat1 = lat1;
 		this.long1 = long1;
 		this.lat2 = lat2;
 		this.long2 = long2;
-		this.finalDistance=finalDistance;
+		this.finalDistance = finalDistance;
 	}
 
 	public int getFinalDistance() {

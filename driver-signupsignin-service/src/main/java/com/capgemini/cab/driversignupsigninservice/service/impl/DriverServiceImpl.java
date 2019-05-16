@@ -27,6 +27,7 @@ public class DriverServiceImpl implements DriverService {
 
 	@Override
 	public List<Driver> findAll() {
+		System.out.println(dao.findAll());
 		return dao.findAll();
 	}
 

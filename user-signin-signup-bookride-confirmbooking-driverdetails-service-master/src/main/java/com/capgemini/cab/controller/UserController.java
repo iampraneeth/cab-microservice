@@ -48,17 +48,10 @@ public class UserController {
 		// System.out.println(password);
 
 		User user1 = service.findByEmail(email);
-		// System.out.println(user1);
+		 System.out.println(user1);
 
 		if (user1 == null) {
 			return new ResponseEntity<User>(user1, HttpStatus.NOT_FOUND);
-		}
-
-		if (email.equals("admin@gmail.com") && password.equals("Admin@123")) {
-			Admin admin = new Admin();
-			Admin admin = restTemplate.getForEntity("http://ADMIN-SIGNIN/login", Admin.class).getBody();
-		
-			return ResponseEntity<Admin>(HttpStatus.FOUND);
 		}
 
 		userName = user1.getEmail();
