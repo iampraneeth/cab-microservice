@@ -30,7 +30,8 @@ public class Driver {
 	private String policeReport;
 	private String password;
 	private int status;
-
+	private int pass;
+	
 	public Driver() {
 		super();
 		
@@ -54,6 +55,14 @@ public class Driver {
 		this.vehicleRegistrationNumber = vehicleRegistrationNumber;
 		this.policeReport = policeReport;
 		this.password = password;
+	}
+
+	public int getPass() {
+		return pass;
+	}
+
+	public void setPass(int pass) {
+		this.pass = pass;
 	}
 
 	public int getStatus() {
@@ -175,14 +184,16 @@ public class Driver {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Driver [D_id=" + D_id + ", name=" + name + ", email=" + email + ", contact=" + contact + ", gender="
 				+ gender + ", dateOfBirth=" + dateOfBirth + ", address=" + address + ", state=" + state + ", city="
 				+ city + ", postalCode=" + postalCode + ", licenseNumber=" + licenseNumber
 				+ ", vehicleRegistrationNumber=" + vehicleRegistrationNumber + ", policeReport=" + policeReport
-				+ ", password=" + password + "]";
+				+ ", password=" + password + ", status=" + status + ", pass=" + pass + "]";
 	}
+	
+	
 
 }

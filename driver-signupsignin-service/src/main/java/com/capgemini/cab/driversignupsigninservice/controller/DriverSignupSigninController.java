@@ -46,7 +46,7 @@ public class DriverSignupSigninController {
 
 		Driver status = service.findByEmail(email);
 
-		if ((status.getEmail().equals(email) && (status.getPassword().equals(password)))) {
+		if ((status.getEmail().equals(email) && (status.getPassword().equals(password))&&(status.getPass()!=0))) {
 
 			return new ResponseEntity<Driver>(status, HttpStatus.ACCEPTED);
 		}
@@ -77,14 +77,51 @@ public class DriverSignupSigninController {
 	}
 
 	@GetMapping("/userdetailsfordriver")
-	public ResponseEntity<Driver> userDetailsForDriver() {
+	public ResponseEntity<User> userDetailsForDriver() {
 
 		// DriverDetails details = new DriverDetails();
 		driver = new ArrayList<Driver>();
 		driver = service.findAll();
 		// System.out.println(driver);
 		for (Driver driver2 : driver) {
-			//System.out.println(driver2);
+			System.out.println(driver2);
+			if (driver2.getStatus() == 0) {
+				driverEmail = driver2.getEmail();
+				driver2.setStatus(1);
+				System.out.println(driver2);
+				User u = restTemplate.getForEntity("http://USER-SIGNUP-SIGNIN/givinguserdetails", User.class).getBody();
+
+				return new ResponseEntity<User>(u, HttpStatus.OK);
+
+			}
+
+		}
+
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+
+	}
+	
+	@GetMapping("/pass/{email}")
+	public ResponseEntity<Driver> passOfDriver(@PathVariable String email){
+		Driver d=service.findByEmail(email);
+//		d.setPass(1);
+		return new ResponseEntity<Driver>(d,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+
+	@GetMapping("/userdetailsfordriver1")
+	public ResponseEntity<Driver> userDetailsForDriver1() {
+
+		DriverDetails details = new DriverDetails();
+		driver = new ArrayList<Driver>();
+		driver = service.findAll();
+		System.out.println(driver);
+		for (Driver driver2 : driver) {
+			// System.out.println(driver2);
 			if (driver2.getStatus() == 0) {
 				driverEmail = driver2.getEmail();
 				driver2.setStatus(1);
@@ -96,9 +133,7 @@ public class DriverSignupSigninController {
 			}
 
 		}
-
 		return new ResponseEntity<Driver>(HttpStatus.NOT_FOUND);
-
 	}
 
 	@GetMapping("/ridecomplete")
