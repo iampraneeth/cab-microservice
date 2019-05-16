@@ -77,27 +77,27 @@ public class DriverSignupSigninController {
 	}
 
 	@GetMapping("/userdetailsfordriver")
-	public ResponseEntity<User> userDetailsForDriver() {
+	public ResponseEntity<Driver> userDetailsForDriver() {
 
 		// DriverDetails details = new DriverDetails();
 		driver = new ArrayList<Driver>();
 		driver = service.findAll();
 		// System.out.println(driver);
 		for (Driver driver2 : driver) {
-			System.out.println(driver2);
+			//System.out.println(driver2);
 			if (driver2.getStatus() == 0) {
 				driverEmail = driver2.getEmail();
 				driver2.setStatus(1);
 				System.out.println(driver2);
 				User u = restTemplate.getForEntity("http://USER-SIGNUP-SIGNIN/givinguserdetails", User.class).getBody();
 
-				return new ResponseEntity<User>(u, HttpStatus.OK);
+				return new ResponseEntity<Driver>(driver2, HttpStatus.OK);
 
 			}
 
 		}
 
-		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Driver>(HttpStatus.NOT_FOUND);
 
 	}
 
