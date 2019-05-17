@@ -39,7 +39,7 @@ public class AdminSigninController {
 	@GetMapping("/pass/{email}")
 	public ResponseEntity<Driver> passOfDriver(@PathVariable String email) {
 		Driver d = restTemplate.getForEntity("http://DRIVER-SIGNUP-SIGNIN/pass/" + email, Driver.class).getBody();
-		d.setPass(1);
+		/* d.setPass(1); */
 		System.out.println(d);
 		System.out.println(d.getPass());
 

@@ -47,7 +47,7 @@ public class DriverSignupSigninController {
 
 		Driver status = service.findByEmail(email);
 
-		if ((status.getEmail().equals(email) && (status.getPassword().equals(password)) /*(status.getPass() == 1)*/)) {
+		if ((status.getEmail().equals(email) && (status.getPassword().equals(password)) &&(status.getPass() != 0))) {
 
 			return new ResponseEntity<Driver>(status, HttpStatus.ACCEPTED);
 		}
@@ -120,6 +120,7 @@ public class DriverSignupSigninController {
 	public ResponseEntity<Driver> passOfDriver(@PathVariable String email) {
 		Driver d = service.findByEmail(email);
 		d.setPass(1);
+		System.out.println(d);
 		return new ResponseEntity<Driver>(d, HttpStatus.OK);
 	}
 
