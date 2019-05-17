@@ -46,7 +46,7 @@ public class DriverSignupSigninController {
 
 		Driver status = service.findByEmail(email);
 
-		if ((status.getEmail().equals(email) && (status.getPassword().equals(password))&&(status.getPass()!=0))) {
+		if ((status.getEmail().equals(email) && (status.getPassword().equals(password))/* &&(status.getPass()!=0) */)) {
 
 			return new ResponseEntity<Driver>(status, HttpStatus.ACCEPTED);
 		}
@@ -100,18 +100,26 @@ public class DriverSignupSigninController {
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 
 	}
-	
+
 	@GetMapping("/pass/{email}")
-	public ResponseEntity<Driver> passOfDriver(@PathVariable String email){
-		Driver d=service.findByEmail(email);
+	public ResponseEntity<Driver> passOfDriver(@PathVariable String email) {
+		Driver d = service.findByEmail(email);
 //		d.setPass(1);
-		return new ResponseEntity<Driver>(d,HttpStatus.OK);
+		return new ResponseEntity<Driver>(d, HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
+
+	/*
+	 * @GetMapping("/checkingdriver") public ResponseEntity<Driver>
+	 * userDetailsForDriverCheck(){ DriverDetails details = new DriverDetails();
+	 * driver = new ArrayList<Driver>(); driver = service.findAll();
+	 * System.out.println(driver); for (Driver driver2 : driver) { //
+	 * System.out.println(driver2); if (driver2.getStatus() == 0) { return new
+	 * ResponseEntity<Driver>(HttpStatus.NO_CONTENT); }
+	 * 
+	 * } return new ResponseEntity<Driver>(HttpStatus.NOT_ACCEPTABLE);
+	 * 
+	 * }
+	 */
 
 	@GetMapping("/userdetailsfordriver1")
 	public ResponseEntity<Driver> userDetailsForDriver1() {
@@ -134,6 +142,16 @@ public class DriverSignupSigninController {
 
 		}
 		return new ResponseEntity<Driver>(HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/driveraccept")
+	public ResponseEntity<Driver> driverdetailsForRiding() {
+
+		driver = new ArrayList<Driver>();
+		Driver d = service.findByEmail(driverEmail);
+		d.setStatus(1);
+		return new ResponseEntity<Driver>(d, HttpStatus.OK);
+
 	}
 
 	@GetMapping("/ridecomplete")
