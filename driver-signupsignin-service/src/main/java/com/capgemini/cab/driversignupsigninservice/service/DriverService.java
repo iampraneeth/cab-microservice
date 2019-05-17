@@ -12,5 +12,6 @@ public interface DriverService {
 	public Driver addDetails(Driver driver);
 	public Driver findByEmail(String email);
 	public List<Driver> findAll();
+	public Driver deleteByEmail(String email);
 
 }

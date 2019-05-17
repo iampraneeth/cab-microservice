@@ -9,6 +9,7 @@ public class DriverDetails {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public DriverDetails(List<Driver> driverDetails) {
 		super();

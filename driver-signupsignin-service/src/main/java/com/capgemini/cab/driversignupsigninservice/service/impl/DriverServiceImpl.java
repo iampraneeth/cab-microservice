@@ -31,4 +31,10 @@ public class DriverServiceImpl implements DriverService {
 		return dao.findAll();
 	}
 
+	@Override
+	public Driver deleteByEmail(String email) {
+		// TODO Auto-generated method stub
+		return dao.deleteByEmail(email);
+	}
+
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class DriverSignupSigninController {
 
 		Driver status = service.findByEmail(email);
 
-		if ((status.getEmail().equals(email) && (status.getPassword().equals(password))/* &&(status.getPass()!=0) */)) {
+		if ((status.getEmail().equals(email) && (status.getPassword().equals(password)) /*(status.getPass() == 1)*/)) {
 
 			return new ResponseEntity<Driver>(status, HttpStatus.ACCEPTED);
 		}
@@ -58,13 +59,27 @@ public class DriverSignupSigninController {
 	@GetMapping("/driverdetails")
 	public ResponseEntity<DriverDetails> driverDetails() {
 		DriverDetails details = new DriverDetails();
+		List<Driver> finalDrivers=new ArrayList<Driver>();
+		
+
 		driver = new ArrayList<Driver>();
 
 		driver = service.findAll();
-		details.setDriverDetails(driver);
+		for (Driver driver2 : driver) {
+			if(driver2.getPass()==0) {
+				
+				finalDrivers.add(driver2);
+				
+			}
+			
+		}
+		details.setDriverDetails(finalDrivers);
+
+		 
+		
 		// System.out.println(details.getDriverDetails());
 
-		return new ResponseEntity<DriverDetails>(details, HttpStatus.ACCEPTED);
+		return new ResponseEntity<DriverDetails>(details,HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping("/userdetails")
@@ -104,7 +119,7 @@ public class DriverSignupSigninController {
 	@GetMapping("/pass/{email}")
 	public ResponseEntity<Driver> passOfDriver(@PathVariable String email) {
 		Driver d = service.findByEmail(email);
-//		d.setPass(1);
+		d.setPass(1);
 		return new ResponseEntity<Driver>(d, HttpStatus.OK);
 	}
 
@@ -161,6 +176,15 @@ public class DriverSignupSigninController {
 		System.out.println(d);
 
 		return new ResponseEntity<User>(HttpStatus.OK);
+
+	}
+
+	@GetMapping("/fail/{email}")
+	public ResponseEntity<Driver> deletingTheDriver(@PathVariable String email) {
+		Driver fail = service.findByEmail(email);
+		fail.setPass(0);
+		System.out.println(fail);
+		return new ResponseEntity<Driver>(HttpStatus.OK);
 
 	}
 

@@ -9,4 +9,5 @@ import com.capgemini.cab.driversignupsigninservice.entity.Driver;
 public interface DriverDao extends JpaRepository<Driver, Long>{
 
 	Driver findByEmail(String email);
+	Driver deleteByEmail(String email);
 }
